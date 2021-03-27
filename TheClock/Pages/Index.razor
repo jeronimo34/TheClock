@@ -1,0 +1,32 @@
+﻿@using System.Timers
+@implements IDisposable
+
+@page "/"
+
+<h1>The Clock</h1>
+
+<p>
+     現在時刻：@nowTime
+</p>
+
+@code {  
+
+    private Timer timer;
+    private String nowTime = DateTime.Now.ToString();
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(1000);
+        timer.Elapsed += (sender, e) => {
+            nowTime = DateTime.Now.ToString();
+            StateHasChanged();
+        };
+        timer.Start();
+    }
+
+    public void Dispose() {
+        timer.Stop();
+        timer.Dispose();
+    }
+
+}
